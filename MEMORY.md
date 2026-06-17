@@ -9,6 +9,8 @@
   `useCounter.test.ts` 9/9 green。全体 16→11 failed（回帰なし）。
 - [run 2] `formatPrice.ts` を `Intl.NumberFormat` で通貨化、非有限値で `TypeError`。
   `formatPrice.test.ts` 6/6 green。全体 11→5 failed（回帰なし）。
+- [run 3] `TodoList.tsx` に追加/Enter/空入力無視/トグル/削除/未完了カウントを配線。
+  `TodoList.test.tsx` 7/7 green。`npm run verify` 全項目グリーン（22/22）。**LOOP_DONE**。
 
 ## Open（未解決 / 次周への申し送り）
 
