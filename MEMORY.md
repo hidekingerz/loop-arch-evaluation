@@ -11,8 +11,9 @@
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 16 failed / 6 passed（全 22）。
+- [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 18 failed / 6 passed（全 24）。
   実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` の 3 ユニット。
+  `formatPrice` の仕様は `formatPrice.test.ts` と `formatPrice.legacy.test.ts` の両方。
 
 ## Notes（学び / 落とし穴）
 

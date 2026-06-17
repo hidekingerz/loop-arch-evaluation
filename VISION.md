@@ -13,7 +13,7 @@
 
 - [ ] `npm run typecheck`（`tsc --noEmit`）がエラー 0 で通る
 - [ ] `npm run lint`（`eslint .`）がエラー・警告 0 で通る
-- [ ] `npm run test`（`vitest run`）が **全 22 テスト pass**
+- [ ] `npm run test`（`vitest run`）が **全 24 テスト pass**
 - [ ] 上記をまとめた `npm run verify` が成功する
 - [ ] テストファイル（`src/**/*.test.ts`, `src/**/*.test.tsx`）を一切変更していない
 
@@ -21,6 +21,7 @@
 
 - `src/lib/useCounter.ts` … 状態ロジック（increment/decrement/reset/set、min/max クランプ）
 - `src/lib/formatPrice.ts` … 純粋関数 / 型 / `Intl`（JPY・USD、非有限値で `TypeError`）
+  - 仕様は `formatPrice.test.ts` と `formatPrice.legacy.test.ts` の両方（どちらも変更禁止）
 - `src/components/TodoList.tsx` … DOM 操作 / a11y（追加・Enter追加・空入力無視・トグル・削除・未完了カウント）
 
 ## スコープ外（やらないこと）
