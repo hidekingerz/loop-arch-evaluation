@@ -5,9 +5,8 @@
 
 ## Done（達成済み）
 
-<!-- 例:
-- [run 3] useCounter にクランプを実装。useCounter.test.ts 全 green。commit abc1234
--->
+- [run 1] useCounter.ts に min/max クランプ、関数型 setState、reset は initial（クランプ後）へ復帰、
+  set/increment/decrement もクランプを実装。useCounter.test.ts 全 9 green。typecheck/lint clean。
 
 ## Open（未解決 / 次周への申し送り）
 
