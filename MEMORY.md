@@ -7,6 +7,8 @@
 
 - [run 1] `useCounter.ts` に clamp(min/max)・reset→initial・set クランプを実装。
   `useCounter.test.ts` 9/9 green。全体 16→11 failed（回帰なし）。
+- [run 2] `formatPrice.ts` を `Intl.NumberFormat` で通貨化、非有限値で `TypeError`。
+  `formatPrice.test.ts` 6/6 green。全体 11→5 failed（回帰なし）。
 
 ## Open（未解決 / 次周への申し送り）
 

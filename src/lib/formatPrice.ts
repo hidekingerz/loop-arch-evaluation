@@ -3,9 +3,20 @@ export interface FormatPriceOptions {
   locale?: string;
 }
 
-// TODO(loop): naive first draft — does not localize, ignores `locale`, and never
-// rejects non-finite input. Make formatPrice.test.ts pass without changing the test file.
+/**
+ * Formats a numeric amount as a localized currency string.
+ * Defaults to Japanese Yen (`JPY` / `ja-JP`), which has no minor units.
+ * Throws a `TypeError` for non-finite input so callers fail loudly.
+ */
 export function formatPrice(amount: number, options: FormatPriceOptions = {}): string {
-  const { currency = "JPY" } = options;
-  return `${currency} ${amount}`;
+  if (!Number.isFinite(amount)) {
+    throw new TypeError(`formatPrice: amount must be a finite number, got ${amount}`);
+  }
+
+  const { currency = "JPY", locale = "ja-JP" } = options;
+
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+  }).format(amount);
 }
