@@ -10,89 +10,89 @@ export interface ValidationResult {
   errors: Record<string, string>;
 }
 
-// NOTE(loop/refactor): This works and all tests are green, but it is intentionally
-// messy — one long function, deep nesting, and the same validation shape copy-pasted
-// per field. Refactor it (extract per-field validators, flatten with guard clauses)
-// so ESLint's complexity / max-depth / max-lines-per-function rules pass, WITHOUT
-// changing behavior (tests must stay green) and WITHOUT eslint-disable or weakening rules.
+function isMissing(value: string): boolean {
+  return value === undefined || value === null;
+}
+
+function validateUsername(username: string): string | undefined {
+  if (isMissing(username) || username.trim() === "") {
+    return "ユーザー名は必須です";
+  }
+  if (username.length < 3) {
+    return "ユーザー名は3文字以上で入力してください";
+  }
+  if (username.length > 20) {
+    return "ユーザー名は20文字以下で入力してください";
+  }
+  if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+    return "ユーザー名は英数字とアンダースコアのみ使用できます";
+  }
+  return undefined;
+}
+
+function validateEmail(email: string): string | undefined {
+  if (isMissing(email) || email.trim() === "") {
+    return "メールアドレスは必須です";
+  }
+  if (email.length > 254) {
+    return "メールアドレスが長すぎます";
+  }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    return "メールアドレスの形式が正しくありません";
+  }
+  return undefined;
+}
+
+function validatePassword(password: string): string | undefined {
+  if (isMissing(password) || password === "") {
+    return "パスワードは必須です";
+  }
+  if (password.length < 8) {
+    return "パスワードは8文字以上で入力してください";
+  }
+  if (!/[0-9]/.test(password)) {
+    return "パスワードには数字を含めてください";
+  }
+  if (!/[a-zA-Z]/.test(password)) {
+    return "パスワードには英字を含めてください";
+  }
+  return undefined;
+}
+
+function validateAge(age: string): string | undefined {
+  if (isMissing(age) || age.trim() === "") {
+    return "年齢は必須です";
+  }
+  const parsed = Number(age);
+  if (Number.isNaN(parsed)) {
+    return "年齢は数値で入力してください";
+  }
+  if (!Number.isInteger(parsed)) {
+    return "年齢は整数で入力してください";
+  }
+  if (parsed < 18) {
+    return "18歳以上である必要があります";
+  }
+  if (parsed > 120) {
+    return "年齢が正しくありません";
+  }
+  return undefined;
+}
+
 export function validateRegistration(input: RegistrationInput): ValidationResult {
   const errors: Record<string, string> = {};
 
-  if (input.username !== undefined && input.username !== null) {
-    if (input.username.trim() === "") {
-      errors.username = "ユーザー名は必須です";
-    } else {
-      if (input.username.length < 3) {
-        errors.username = "ユーザー名は3文字以上で入力してください";
-      } else {
-        if (input.username.length > 20) {
-          errors.username = "ユーザー名は20文字以下で入力してください";
-        } else {
-          if (!/^[a-zA-Z0-9_]+$/.test(input.username)) {
-            errors.username = "ユーザー名は英数字とアンダースコアのみ使用できます";
-          }
-        }
-      }
-    }
-  } else {
-    errors.username = "ユーザー名は必須です";
-  }
+  const fieldErrors: Array<[string, string | undefined]> = [
+    ["username", validateUsername(input.username)],
+    ["email", validateEmail(input.email)],
+    ["password", validatePassword(input.password)],
+    ["age", validateAge(input.age)],
+  ];
 
-  if (input.email !== undefined && input.email !== null) {
-    if (input.email.trim() === "") {
-      errors.email = "メールアドレスは必須です";
-    } else {
-      if (input.email.length > 254) {
-        errors.email = "メールアドレスが長すぎます";
-      } else {
-        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input.email)) {
-          errors.email = "メールアドレスの形式が正しくありません";
-        }
-      }
+  for (const [field, message] of fieldErrors) {
+    if (message !== undefined) {
+      errors[field] = message;
     }
-  } else {
-    errors.email = "メールアドレスは必須です";
-  }
-
-  if (input.password !== undefined && input.password !== null) {
-    if (input.password === "") {
-      errors.password = "パスワードは必須です";
-    } else {
-      if (input.password.length < 8) {
-        errors.password = "パスワードは8文字以上で入力してください";
-      } else {
-        if (!/[0-9]/.test(input.password)) {
-          errors.password = "パスワードには数字を含めてください";
-        } else {
-          if (!/[a-zA-Z]/.test(input.password)) {
-            errors.password = "パスワードには英字を含めてください";
-          }
-        }
-      }
-    }
-  } else {
-    errors.password = "パスワードは必須です";
-  }
-
-  if (input.age !== undefined && input.age !== null && input.age.trim() !== "") {
-    const parsed = Number(input.age);
-    if (Number.isNaN(parsed)) {
-      errors.age = "年齢は数値で入力してください";
-    } else {
-      if (!Number.isInteger(parsed)) {
-        errors.age = "年齢は整数で入力してください";
-      } else {
-        if (parsed < 18) {
-          errors.age = "18歳以上である必要があります";
-        } else {
-          if (parsed > 120) {
-            errors.age = "年齢が正しくありません";
-          }
-        }
-      }
-    }
-  } else {
-    errors.age = "年齢は必須です";
   }
 
   return { valid: Object.keys(errors).length === 0, errors };

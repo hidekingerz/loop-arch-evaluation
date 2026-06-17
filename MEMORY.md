@@ -5,6 +5,11 @@
 
 ## Done（達成済み）
 
+- [run 1] `src/lib/validateRegistration.ts` をフィールド別バリデータ（validateUsername /
+  validateEmail / validatePassword / validateAge）に抽出し、ガード節（早期return）で平坦化。
+  必須判定は `isMissing` ヘルパで統一。エラー文言・優先順位は不変。complexity 25→OK・
+  max-lines 77→OK・max-depth 5→OK を解消。typecheck clean・テスト 21/21 緑維持。
+
 <!-- 例:
 - [run 1] validateRegistration をフィールド別バリデータに抽出し平坦化。lint 違反解消・テスト全緑維持。
 -->
