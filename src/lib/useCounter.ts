@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export interface UseCounterOptions {
   initial?: number;
@@ -15,16 +15,45 @@ export interface UseCounterResult {
   set: (value: number) => void;
 }
 
-// TODO(loop): naive first draft — does not clamp to min/max and reset ignores `initial`.
-// Make the spec in useCounter.test.ts pass without changing the test file.
-export function useCounter(options: UseCounterOptions = {}): UseCounterResult {
-  const { initial = 0, step = 1 } = options;
-  const [count, setCount] = useState(initial);
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
 
-  const increment = () => setCount(count + step);
-  const decrement = () => setCount(count - step);
-  const reset = () => setCount(0);
-  const set = (value: number) => setCount(value);
+/**
+ * A small counter hook.
+ * - `increment` / `decrement` move by `step` (default 1) and clamp to [min, max].
+ * - `reset` returns to the (clamped) initial value.
+ * - `set` jumps to an arbitrary value, also clamped.
+ */
+export function useCounter(options: UseCounterOptions = {}): UseCounterResult {
+  const {
+    initial = 0,
+    min = Number.NEGATIVE_INFINITY,
+    max = Number.POSITIVE_INFINITY,
+    step = 1,
+  } = options;
+
+  const initialClamped = clamp(initial, min, max);
+  const [count, setCount] = useState(initialClamped);
+
+  const increment = useCallback(() => {
+    setCount((c) => clamp(c + step, min, max));
+  }, [step, min, max]);
+
+  const decrement = useCallback(() => {
+    setCount((c) => clamp(c - step, min, max));
+  }, [step, min, max]);
+
+  const reset = useCallback(() => {
+    setCount(initialClamped);
+  }, [initialClamped]);
+
+  const set = useCallback(
+    (value: number) => {
+      setCount(clamp(value, min, max));
+    },
+    [min, max],
+  );
 
   return { count, increment, decrement, reset, set };
 }
