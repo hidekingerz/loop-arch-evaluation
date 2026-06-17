@@ -47,6 +47,23 @@ npm run verify   # 現状は test が赤い（これを green にするのがル
 
 完了サイン `LOOP_DONE` が出るか `MAX_ITER` に達すると停止する。
 
+## 複数回まわす（試行ごとに独立ブランチ）
+
+起点は tag `eval-baseline`（`test` 16 failed / 6 passed の状態）に固定してある。
+1試行 = 起点から切った新ブランチにすると、収束過程がブランチ履歴に残り**回ごとに比較**できる。
+
+```bash
+scripts/new-run.sh 01     # run/01 を eval-baseline から作成 → ここでループを回す
+scripts/new-run.sh 02     # 別の試行は run/02 で（同じ起点からやり直し）
+```
+
+並列・完全分離でやりたい場合は worktree:
+
+```bash
+git worktree add ../run-03 -b run/03 eval-baseline
+cd ../run-03 && npm install && ./run.sh
+```
+
 ## コマンド
 
 - `npm run typecheck` — `tsc --noEmit`
