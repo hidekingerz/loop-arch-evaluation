@@ -10,17 +10,27 @@
   必須判定は `isMissing` ヘルパで統一。エラー文言・優先順位は不変。complexity 25→OK・
   max-lines 77→OK・max-depth 5→OK を解消。typecheck clean・テスト 21/21 緑維持。
 
+- [run 2] `src/components/StatusBadgeList.tsx` のステータス別ネスト三項を記述子マップ
+  （`STATUS_DESCRIPTORS` + `FALLBACK_DESCRIPTOR` + `describeStatus`）に置換し、行描画を
+  `StatusBadgeRow` 小コンポーネントに抽出。label/symbol/priority・data-testid・要素構造は不変。
+  complexity 13→OK・max-lines 44→OK を解消。`npm run verify` 全緑（lint 0・テスト 21/21）。
+
 <!-- 例:
 - [run 1] validateRegistration をフィールド別バリデータに抽出し平坦化。lint 違反解消・テスト全緑維持。
 -->
 
 ## Open（未解決 / 次周への申し送り）
 
+- なし。2 ユニット（validateRegistration / StatusBadgeList）とも解消済み。
+  `npm run verify` 全緑（typecheck 0・lint 0・test 21/21）で「完了の定義」を満たした。
+
+<!-- 履歴:
 - [run 0 / setup] 開始状態: `typecheck` は green、`test` は **21/21 全緑**（リファクタの基準）。
   `lint` は **11 件の違反**（complexity / max-depth / max-lines-per-function）が 2 ユニットに残る:
   - `src/lib/validateRegistration.ts` … complexity 25・max-lines 77・max-depth 4〜5（深いネスト＋重複検証）
   - `src/components/StatusBadgeList.tsx` … max-lines 44・複雑な map 内三項で complexity 13
   目標は振る舞いを変えずに lint を 0 にすること。
+-->
 
 ## Notes（学び / 落とし穴）
 
