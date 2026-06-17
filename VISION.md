@@ -1,30 +1,34 @@
 # VISION — このループのゴール
 
-> 検証テーマ: **TDD グリーン化（フロントエンドコードへの single-agent closed loop 適用検証）**
+> 検証テーマ: **リファクタリング（振る舞い不変・品質ゲート駆動）**
 > エージェントは毎周これを読み、「完了の定義」を満たしたかどうかで停止を判断します。
 
 ## ゴール（1〜2文で）
 
-`src/` 配下の **わざと未実装/不完全にしてあるフロントエンド実装**（React フック・ユーティリティ・
-コンポーネント）を、**仕様を定義する失敗テスト群（`*.test.ts(x)`）がすべて green になるまで** 実装する。
-テストファイルは仕様なので変更しない。
+`src/` 配下の **動作している（テスト全緑の）が意図的に汚いコード**（巨大関数・深いネスト・重複ロジック）を、
+**ESLint の構造ルール（complexity / max-depth / max-lines-per-function / max-nested-callbacks）が
+すべて通るまでリファクタ**する。**振る舞いは一切変えない**（テストは回帰ネットであり、常に全緑を保つ）。
 
 ## 完了の定義（Definition of Done） — 検証可能な箇条書きで
 
-- [ ] `npm run typecheck`（`tsc --noEmit`）がエラー 0 で通る
-- [ ] `npm run lint`（`eslint .`）がエラー・警告 0 で通る
-- [ ] `npm run test`（`vitest run`）が **全 22 テスト pass**
-- [ ] 上記をまとめた `npm run verify` が成功する
-- [ ] テストファイル（`src/**/*.test.ts`, `src/**/*.test.tsx`）を一切変更していない
+- [ ] `npm run typecheck`（`tsc --noEmit`）がエラー 0
+- [ ] `npm run lint`（`eslint .`）が **エラー・警告 0**（構造ルールをすべて満たす）
+- [ ] `npm run test`（`vitest run`）が **全 21 テスト pass のまま**（1 つも壊さない・1 つも書き換えない）
+- [ ] `npm run verify` が成功する
+- [ ] テストファイル・`eslint.config.js`・`tsconfig.json` 等を一切変更していない
+- [ ] `eslint-disable` / `// eslint-ignore` 等でルールを黙らせていない
 
 ## 対象ユニット（1周＝1ユニットが目安）
 
-- `src/lib/useCounter.ts` … 状態ロジック（increment/decrement/reset/set、min/max クランプ）
-- `src/lib/formatPrice.ts` … 純粋関数 / 型 / `Intl`（JPY・USD、非有限値で `TypeError`）
-- `src/components/TodoList.tsx` … DOM 操作 / a11y（追加・Enter追加・空入力無視・トグル・削除・未完了カウント）
+- `src/lib/validateRegistration.ts` … 純粋関数。深いネスト＋フィールドごとの重複検証を、
+  **フィールド別バリデータの抽出＋ガード節での平坦化**で解消する。
+- `src/components/StatusBadgeList.tsx` … React。ステータスごとに重複したラベル/記号/優先度の
+  ネスト三項を、**記述子マップや小さなヘルパへの抽出**で解消する。
 
-## スコープ外（やらないこと）
+## スコープ外（やらないこと・絶対に変えないもの）
 
-- テストファイルの変更・削除・スキップ（`it.skip` / `describe.skip` 含む）
-- 依存パッケージの追加・更新、ビルド設定（tsconfig / eslint / vitest config）の変更
-- `templates/single-agent-loop/`（雛形のオリジナル）の変更
+- **振る舞い**: `validateRegistration` の入出力（エラーメッセージ含む）、`StatusBadgeList` の props と
+  レンダリング結果（`data-testid`・テキスト）。これらは変えない。
+- 公開 API のシグネチャ変更、依存パッケージの追加・更新。
+- `eslint.config.js` のルール緩和/削除、`eslint-disable` の付与、テストファイルの変更。
+- `templates/single-agent-loop/`（雛形のオリジナル）の変更。

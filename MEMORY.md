@@ -6,15 +6,19 @@
 ## Done（達成済み）
 
 <!-- 例:
-- [run 3] useCounter にクランプを実装。useCounter.test.ts 全 green。commit abc1234
+- [run 1] validateRegistration をフィールド別バリデータに抽出し平坦化。lint 違反解消・テスト全緑維持。
 -->
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 16 failed / 6 passed（全 22）。
-  実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` の 3 ユニット。
+- [run 0 / setup] 開始状態: `typecheck` は green、`test` は **21/21 全緑**（リファクタの基準）。
+  `lint` は **11 件の違反**（complexity / max-depth / max-lines-per-function）が 2 ユニットに残る:
+  - `src/lib/validateRegistration.ts` … complexity 25・max-lines 77・max-depth 4〜5（深いネスト＋重複検証）
+  - `src/components/StatusBadgeList.tsx` … max-lines 44・複雑な map 内三項で complexity 13
+  目標は振る舞いを変えずに lint を 0 にすること。
 
 ## Notes（学び / 落とし穴）
 
-- VERIFY は `npm run verify`（typecheck → lint → test の順）。`noUnusedLocals/Parameters` が厳しめ。
-- `formatPrice` の通貨記号は full ICU 依存（JPY は全角 `￥`）。テストの期待値が唯一の正。
+- テストは回帰ネット。**常に全緑**を保つ（赤くしたら即やり直し）。エラーメッセージ文言も振る舞いの一部。
+- lint の構造ルールは `src/` の非テストファイルのみ対象（テストは除外設定済み）。
+- `eslint-disable` やルール緩和は禁止 —— 実際の構造改善でのみ満たす。

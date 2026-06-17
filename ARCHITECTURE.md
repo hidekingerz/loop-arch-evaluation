@@ -6,9 +6,10 @@
 
 - 言語 / ランタイム: TypeScript 5 / Node.js 22（ESM, `"type": "module"`）
 - UI: React 18（`jsx: react-jsx` — `import React` は不要）
-- テスト: Vitest 2 + jsdom + @testing-library/react + @testing-library/user-event + jest-dom
-- Lint: ESLint 9（flat config）+ typescript-eslint
-- 型: `tsc --noEmit`（strict, `noUnusedLocals` / `noUnusedParameters` 有効）
+- テスト: Vitest 2 + jsdom + @testing-library/react + jest-dom
+- Lint: ESLint 9（flat config）+ typescript-eslint。**構造ルール（complexity / max-depth /
+  max-lines-per-function / max-nested-callbacks / max-params）が `src/` の非テストファイルに対して有効**。
+- 型: `tsc --noEmit`（strict）
 - パッケージマネージャ: npm
 
 ## 主要ディレクトリ
@@ -16,23 +17,20 @@
 ```
 src/
   lib/
-    useCounter.ts        状態ロジックのフック（実装対象）
-    useCounter.test.ts   仕様（変更禁止）
-    formatPrice.ts       通貨フォーマットの純粋関数（実装対象）
-    formatPrice.test.ts  仕様（変更禁止）
+    validateRegistration.ts        登録フォームのバリデータ（リファクタ対象・動作中）
+    validateRegistration.test.ts   仕様 / 回帰ネット（変更禁止）
   components/
-    TodoList.tsx         a11y 付き Todo コンポーネント（実装対象）
-    TodoList.test.tsx    仕様（変更禁止）
-  setupTests.ts          jest-dom の読み込み
-templates/single-agent-loop/   雛形のオリジナル（変更禁止）
+    StatusBadgeList.tsx            ステータスバッジ一覧（リファクタ対象・動作中）
+    StatusBadgeList.test.tsx       仕様 / 回帰ネット（変更禁止）
+  setupTests.ts                    jest-dom の読み込み
+templates/single-agent-loop/       雛形のオリジナル（変更禁止）
 ```
 
 ## 重要な慣習
 
-- 実装対象ファイルには `// TODO(loop):` で何が未実装かを書いてある。
-- テストは対象ファイルと同階層に `*.test.ts(x)` で配置。テストが唯一の仕様。
-- 副作用なし。`Intl.NumberFormat` 等の Web 標準 API を利用してよい。
-- 未使用のローカル変数・引数は型/Lint エラーになる（使わない引数は `_` 始まり）。
+- リファクタ対象には `NOTE(loop/refactor):` コメントで「動作はするが汚い」旨を明記。
+- 新しいヘルパ関数/定数/小コンポーネントを**追加**して整理してよい（公開 API の外形は保つ）。
+- テストは `data-testid` やテキストでレンダリング結果を検査する。これらは振る舞いの一部。
 
 ## ビルド / 実行コマンド
 
