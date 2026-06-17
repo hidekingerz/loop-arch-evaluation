@@ -7,6 +7,9 @@
 
 - [run 1] useCounter.ts に min/max クランプ、関数型 setState、reset は initial（クランプ後）へ復帰、
   set/increment/decrement もクランプを実装。useCounter.test.ts 全 9 green。typecheck/lint clean。
+- [run 2] TodoList.tsx を実装（追加/Enter追加/空白無視/入力クリア/チェックボックスでトグル/
+  「削除: <text>」ボタンで削除/未完了カウント）。TodoList.test.tsx 全 7 green。typecheck/lint clean。
+  この時点で全体 16 passed / 8 failed（残りは formatPrice 2 ファイルのみ）。
 
 ## Open（未解決 / 次周への申し送り）
 
