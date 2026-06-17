@@ -5,14 +5,14 @@
 
 ## Done（達成済み）
 
-<!-- 例:
-- [run 3] useCounter にクランプを実装。useCounter.test.ts 全 green。commit abc1234
--->
+- [run/02 iter1] useCounter にクランプ実装（min/max、initial クランプ、reset→initial、set クランプ）。
+  関数型 updater で stale closure も回避。useCounter.test.ts 全 green（11/22 passed）。commit 6fead67
 
 ## Open（未解決 / 次周への申し送り）
 
 - [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 16 failed / 6 passed（全 22）。
   実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` の 3 ユニット。
+- [run/02] 残り: `formatPrice.ts` / `TodoList.tsx`。
 
 ## Notes（学び / 落とし穴）
 
