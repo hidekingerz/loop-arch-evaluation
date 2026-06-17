@@ -15,16 +15,22 @@ export interface UseCounterResult {
   set: (value: number) => void;
 }
 
-// TODO(loop): naive first draft — does not clamp to min/max and reset ignores `initial`.
-// Make the spec in useCounter.test.ts pass without changing the test file.
 export function useCounter(options: UseCounterOptions = {}): UseCounterResult {
-  const { initial = 0, step = 1 } = options;
-  const [count, setCount] = useState(initial);
+  const {
+    initial = 0,
+    step = 1,
+    min = Number.NEGATIVE_INFINITY,
+    max = Number.POSITIVE_INFINITY,
+  } = options;
 
-  const increment = () => setCount(count + step);
-  const decrement = () => setCount(count - step);
-  const reset = () => setCount(0);
-  const set = (value: number) => setCount(value);
+  const clamp = (value: number): number => Math.min(Math.max(value, min), max);
+
+  const [count, setCount] = useState(() => clamp(initial));
+
+  const increment = () => setCount((prev) => clamp(prev + step));
+  const decrement = () => setCount((prev) => clamp(prev - step));
+  const reset = () => setCount(clamp(initial));
+  const set = (value: number) => setCount(clamp(value));
 
   return { count, increment, decrement, reset, set };
 }
