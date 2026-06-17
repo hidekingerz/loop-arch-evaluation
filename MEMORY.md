@@ -10,6 +10,11 @@
 - [run 2] TodoList.tsx を実装（追加/Enter追加/空白無視/入力クリア/チェックボックスでトグル/
   「削除: <text>」ボタンで削除/未完了カウント）。TodoList.test.tsx 全 7 green。typecheck/lint clean。
   この時点で全体 16 passed / 8 failed（残りは formatPrice 2 ファイルのみ）。
+- [human decision] run 3 の BLOCKER（formatPrice の矛盾）を人間の承認のもと解消。
+  レガシー契約を別関数 `formatPriceLegacy.ts` に分離（`formatPrice.legacy.test.ts` →
+  `formatPriceLegacy.test.ts` にリネームし新関数を対象に変更）。`formatPrice` は正規の Intl 形式を実装。
+  これでスペックの衝突が消え、`npm run verify` 全 24 green。**LOOP_DONE 到達可能**。
+  ※ テストファイルの変更を伴うため、エージェントではなく人間が実施（RULES 準拠）。
 
 ## Open（未解決 / 次周への申し送り）
 
@@ -17,7 +22,7 @@
   実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` の 3 ユニット。
   `formatPrice` の仕様は `formatPrice.test.ts` と `formatPrice.legacy.test.ts` の両方。
 
-- [run 3 / BLOCKER — 解なし / 人間へエスカレーション]
+- [run 3 / BLOCKER — 解なし / 人間へエスカレーション] ※ [human decision] で解決済み（下記 Done 参照）
   `formatPrice` ユニットは **両テストファイルが論理的に矛盾**しており、RULES.md を破らずに
   全 24 green（Definition of Done）に到達することは不可能。詳細:
     - `formatPrice.test.ts`        は `formatPrice(1000) === "￥1,000"`、`formatPrice(0) === "￥0"` を要求（Intl/JPY 形式）。

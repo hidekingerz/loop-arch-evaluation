@@ -21,7 +21,10 @@
 
 - `src/lib/useCounter.ts` … 状態ロジック（increment/decrement/reset/set、min/max クランプ）
 - `src/lib/formatPrice.ts` … 純粋関数 / 型 / `Intl`（JPY・USD、非有限値で `TypeError`）
-  - 仕様は `formatPrice.test.ts` と `formatPrice.legacy.test.ts` の両方（どちらも変更禁止）
+  - 仕様は `formatPrice.test.ts`（Intl 形式 "￥1,000"）
+- `src/lib/formatPriceLegacy.ts` … レガシー契約（"1,000円" 形式）。
+  - 仕様は `formatPriceLegacy.test.ts`。元は formatPrice と同居していたが、Intl 形式と両立しないため
+    **人間の判断で別関数に分離**した。
 - `src/components/TodoList.tsx` … DOM 操作 / a11y（追加・Enter追加・空入力無視・トグル・削除・未完了カウント）
 
 ## スコープ外（やらないこと）
