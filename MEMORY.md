@@ -11,8 +11,9 @@
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 16 failed / 6 passed（全 22）。
-  実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` の 3 ユニット。
+- [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 20 failed / 6 passed（全 26）。
+  実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` / `components/Cart.tsx` の 4 ユニット。
+  `Cart.tsx` は `useCounter` と `formatPrice` を内部利用するため、依存先が正しくないと green にできない。
 
 ## Notes（学び / 落とし穴）
 

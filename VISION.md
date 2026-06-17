@@ -13,7 +13,7 @@
 
 - [ ] `npm run typecheck`（`tsc --noEmit`）がエラー 0 で通る
 - [ ] `npm run lint`（`eslint .`）がエラー・警告 0 で通る
-- [ ] `npm run test`（`vitest run`）が **全 22 テスト pass**
+- [ ] `npm run test`（`vitest run`）が **全 26 テスト pass**
 - [ ] 上記をまとめた `npm run verify` が成功する
 - [ ] テストファイル（`src/**/*.test.ts`, `src/**/*.test.tsx`）を一切変更していない
 
@@ -22,6 +22,8 @@
 - `src/lib/useCounter.ts` … 状態ロジック（increment/decrement/reset/set、min/max クランプ）
 - `src/lib/formatPrice.ts` … 純粋関数 / 型 / `Intl`（JPY・USD、非有限値で `TypeError`）
 - `src/components/TodoList.tsx` … DOM 操作 / a11y（追加・Enter追加・空入力無視・トグル・削除・未完了カウント）
+- `src/components/Cart.tsx` … `useCounter` と `formatPrice` を**内部利用**する合成ユニット
+  （数量×単価の合計表示・数量は 0 でクランプ）。**依存先が正しく実装されるまで green にできない。**
 
 ## スコープ外（やらないこと）
 
