@@ -3,9 +3,15 @@ export interface FormatPriceOptions {
   locale?: string;
 }
 
-// TODO(loop): naive first draft — does not localize, ignores `locale`, and never
-// rejects non-finite input. Make formatPrice.test.ts pass without changing the test file.
 export function formatPrice(amount: number, options: FormatPriceOptions = {}): string {
-  const { currency = "JPY" } = options;
-  return `${currency} ${amount}`;
+  if (!Number.isFinite(amount)) {
+    throw new TypeError(`amount must be a finite number, received: ${amount}`);
+  }
+
+  const { currency = "JPY", locale = "ja-JP" } = options;
+
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+  }).format(amount);
 }

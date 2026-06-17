@@ -6,6 +6,7 @@
 ## Done（達成済み）
 
 - [run 1] useCounter.ts に min/max クランプ・initial クランプ・reset を initial へ・set/inc/dec を関数型更新でクランプ実装。useCounter.test.ts 全 9 green。全体 11 passed / 15 failed。
+- [run 2] formatPrice.ts を Intl.NumberFormat(style:currency) で実装。非有限値は TypeError。default locale ja-JP で JPY は全角 ￥。formatPrice.test.ts 全 6 green。全体 18 passed / 8 failed。
 
 ## Open（未解決 / 次周への申し送り）
 
