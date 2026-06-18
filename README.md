@@ -1,11 +1,15 @@
 # loop-arch-evaluation
 
 **Single-agent closed loop** の機構検証リポジトリ。最終的にフロントエンドのコードへ
-single-agent loop を適用できることを確認するための、最初の検証テーマ＝**TDD グリーン化**を実装してある。
+single-agent loop を適用できることを確認するため、複数の検証テーマ（グリーン化 / 安全停止 /
+依存解決 / 人間判断 / リファクタ）を回した。
 
 雛形の理論・元ネタ: <https://hidekingerz.github.io/catch-all-favorite/content/research/single-agent-loop/>
 
-## 検証テーマ: TDD グリーン化
+> **検証レポートは [`docs/verification-report.md`](docs/verification-report.md)（索引: [`docs/`](docs/README.md)）。**
+> 全テーマの結果・ブランチマップ・再現方法をまとめてある。
+
+## 最初の検証テーマ: TDD グリーン化
 
 `src/` に **わざと未実装/不完全にしたフロントエンド実装**（React フック・ユーティリティ・コンポーネント）と、
 **正解の振る舞いを定義する失敗テスト群**を仕込んである。ループの仕事は、テストを変更せずに
