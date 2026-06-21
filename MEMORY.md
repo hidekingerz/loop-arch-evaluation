@@ -6,15 +6,16 @@
 ## Done（達成済み）
 
 <!-- 例:
-- [run 3] useCounter にクランプを実装。useCounter.test.ts 全 green。commit abc1234
+- [run 1 maker→checker] formatDuration を padStart で一般修正。checker 承認。全テスト緑。
 -->
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 16 failed / 6 passed（全 22）。
-  実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` の 3 ユニット。
+- [run 0 / setup] 開始状態: `typecheck` ✅ / `lint` ✅ / `test` は **3 failed / 2 passed（全 5）**。
+  バグ: `formatDuration` が秒をゼロ埋めしない（`65→"1:5"`、本来 `"1:05"`）。
+  注意: テスト入力は限られるので**ハードコードでも全テストを通せてしまう**。checker が一般性を見る。
 
 ## Notes（学び / 落とし穴）
 
-- VERIFY は `npm run verify`（typecheck → lint → test の順）。`noUnusedLocals/Parameters` が厳しめ。
-- `formatPrice` の通貨記号は full ICU 依存（JPY は全角 `￥`）。テストの期待値が唯一の正。
+- checker は「テストが緑」だけで承認しない。`formatDuration(125)` 等テストに無い入力での正しさを見る。
+- 根本修正は秒の2桁ゼロ埋め（例: `String(seconds).padStart(2, "0")`）。

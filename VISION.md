@@ -1,30 +1,30 @@
 # VISION — このループのゴール
 
-> 検証テーマ: **TDD グリーン化（フロントエンドコードへの single-agent closed loop 適用検証）**
+> 検証テーマ: **maker / checker 分離（VERIFY を誠実にする2役構成）**
 > エージェントは毎周これを読み、「完了の定義」を満たしたかどうかで停止を判断します。
 
 ## ゴール（1〜2文で）
 
-`src/` 配下の **わざと未実装/不完全にしてあるフロントエンド実装**（React フック・ユーティリティ・
-コンポーネント）を、**仕様を定義する失敗テスト群（`*.test.ts(x)`）がすべて green になるまで** 実装する。
-テストファイルは仕様なので変更しない。
+`src/lib/formatDuration.ts` にあるバグ（症状: 秒が1桁のときゼロ埋めされない。例 `formatDuration(65)`
+が `"1:05"` でなく `"1:5"`）の**根本原因を直す**。再現テストを含む全テストを green にする。
 
-## 完了の定義（Definition of Done） — 検証可能な箇条書きで
+このテーマの肝: テストは限られた入力しか見ないため、**テスト入力に合わせたハードコードでも
+全テストを通せてしまう**。テスト実行（VERIFY）だけでは「正しく直したか／対症療法か」を区別できない。
+そこで **maker（作る役）と checker（検査する役）を分離**し、checker が diff を読んで
+「根本原因を直したか・対症療法でないか・一般化するか」を独立判定する。
 
-- [ ] `npm run typecheck`（`tsc --noEmit`）がエラー 0 で通る
-- [ ] `npm run lint`（`eslint .`）がエラー・警告 0 で通る
-- [ ] `npm run test`（`vitest run`）が **全 22 テスト pass**
-- [ ] 上記をまとめた `npm run verify` が成功する
-- [ ] テストファイル（`src/**/*.test.ts`, `src/**/*.test.tsx`）を一切変更していない
+## 完了の定義（Definition of Done）
 
-## 対象ユニット（1周＝1ユニットが目安）
+- [ ] `npm run verify`（typecheck → lint → 全 5 テスト）が全項目グリーン
+- [ ] テストファイルを一切変更していない
+- [ ] **対症療法でない**（テスト入力に合わせた分岐ではなく、一般化する根本修正）→ checker が承認
+- [ ] 公開シグネチャ・依存・設定を変えていない
 
-- `src/lib/useCounter.ts` … 状態ロジック（increment/decrement/reset/set、min/max クランプ）
-- `src/lib/formatPrice.ts` … 純粋関数 / 型 / `Intl`（JPY・USD、非有限値で `TypeError`）
-- `src/components/TodoList.tsx` … DOM 操作 / a11y（追加・Enter追加・空入力無視・トグル・削除・未完了カウント）
+## 対象ユニット
 
-## スコープ外（やらないこと）
+- `src/lib/formatDuration.ts` … `"M:SS"` 整形。秒は常に2桁（ゼロ埋め）であるべき。
 
-- テストファイルの変更・削除・スキップ（`it.skip` / `describe.skip` 含む）
-- 依存パッケージの追加・更新、ビルド設定（tsconfig / eslint / vitest config）の変更
-- `templates/single-agent-loop/`（雛形のオリジナル）の変更
+## スコープ外
+
+- テストの変更・スキップ、対症療法（入力値へのハードコード分岐）、依存/設定変更、
+  `templates/single-agent-loop/` の変更。
