@@ -13,3 +13,5 @@
 | C | ユニット間依存 | `eval-baseline-hard-deps` | `run/hard-deps-01` |
 | D | 人間判断で矛盾を解決 | — | `run/hard-contradiction-resolved` |
 | E | リファクタリング（振る舞い不変） | `eval-baseline-refactor` | `run/refactor-01` |
+| F | バグ修正（診断） | `eval-baseline-bugfix` | `run/bugfix-01` |
+| G | maker/checker 分離 | `eval-baseline-makercheck` | `run/makercheck-01`, `run/makercheck-hack-demo` |
