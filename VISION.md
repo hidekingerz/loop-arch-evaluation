@@ -1,30 +1,35 @@
 # VISION — このループのゴール
 
-> 検証テーマ: **TDD グリーン化（フロントエンドコードへの single-agent closed loop 適用検証）**
+> 検証テーマ: **新機能追加（分解ヒントなし）**
 > エージェントは毎周これを読み、「完了の定義」を満たしたかどうかで停止を判断します。
 
 ## ゴール（1〜2文で）
 
-`src/` 配下の **わざと未実装/不完全にしてあるフロントエンド実装**（React フック・ユーティリティ・
-コンポーネント）を、**仕様を定義する失敗テスト群（`*.test.ts(x)`）がすべて green になるまで** 実装する。
-テストファイルは仕様なので変更しない。
+`src/feature/products/` に **振る舞いを定義する受け入れテストだけ**があり、実装は存在しない。
+公開コンポーネント **`ProductList`** を実装し、全テストを green にする。
+**内部をどう設計・分解するか（1ファイルか複数ファイルか、ヘルパ関数の抽出など）は自分で決める。**
+このループは設計の指示を与えない。
 
-## 完了の定義（Definition of Done） — 検証可能な箇条書きで
+## 機能の振る舞い（仕様）
 
-- [ ] `npm run typecheck`（`tsc --noEmit`）がエラー 0 で通る
-- [ ] `npm run lint`（`eslint .`）がエラー・警告 0 で通る
-- [ ] `npm run test`（`vitest run`）が **全 22 テスト pass**
-- [ ] 上記をまとめた `npm run verify` が成功する
-- [ ] テストファイル（`src/**/*.test.ts`, `src/**/*.test.tsx`）を一切変更していない
+`ProductList` は商品一覧の表示・検索・並び替え・在庫フィルタを行う React コンポーネント。
+公開 API は `ProductList.test.tsx` の import と使い方が唯一の正。テストから読み取れる振る舞い:
 
-## 対象ユニット（1周＝1ユニットが目安）
+- `products`（`{ id, name, price, inStock }` の配列）を受け取り、初期は与えられた順で全件表示する。
+- 「商品を検索」入力で**名前の部分一致（大文字小文字を無視）**で絞り込む。
+- 「価格の安い順 / 高い順 / 名前順」で並び替える。並び替えは検索の変更後も維持される。
+- 「在庫ありのみ」で `inStock` の商品だけに絞る。検索と併用できる。
+- 結果件数を `role="status"` に「N件」と表示する。各商品は名前と価格を表示する。
+- 該当 0 件のときは「該当する商品はありません」を表示する。
 
-- `src/lib/useCounter.ts` … 状態ロジック（increment/decrement/reset/set、min/max クランプ）
-- `src/lib/formatPrice.ts` … 純粋関数 / 型 / `Intl`（JPY・USD、非有限値で `TypeError`）
-- `src/components/TodoList.tsx` … DOM 操作 / a11y（追加・Enter追加・空入力無視・トグル・削除・未完了カウント）
+## 完了の定義（Definition of Done）
+
+- [ ] `npm run typecheck` がエラー 0 / `npm run lint` がエラー・警告 0
+- [ ] `npm run test` が **全 10 テスト pass**
+- [ ] `npm run verify` が成功する
+- [ ] テストファイルを一切変更していない
 
 ## スコープ外（やらないこと）
 
-- テストファイルの変更・削除・スキップ（`it.skip` / `describe.skip` 含む）
-- 依存パッケージの追加・更新、ビルド設定（tsconfig / eslint / vitest config）の変更
-- `templates/single-agent-loop/`（雛形のオリジナル）の変更
+- テストの変更・スキップ、テスト入力に合わせたハードコード（実ロジックで満たす）。
+- 依存パッケージの追加・更新、ビルド設定の変更、`templates/single-agent-loop/` の変更。
