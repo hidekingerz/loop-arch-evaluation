@@ -18,11 +18,11 @@ export function TaskToggle({ initialTasks }: TaskToggleProps) {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   const toggle = (id: number) => {
-    const target = tasks.find((task) => task.id === id);
-    if (target) {
-      target.done = !target.done;
-    }
-    setTasks(tasks);
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task,
+      ),
+    );
   };
 
   const doneCount = tasks.filter((task) => task.done).length;

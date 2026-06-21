@@ -6,6 +6,7 @@
 ## Done（達成済み）
 
 - [run 1] StepCounter: `advance` のループが各反復で stale closure の `count` を参照し `setCount(count + 1)` を呼ぶため 1 しか増えなかった。関数型更新 `setCount((c) => c + 1)` に修正。再現テスト緑・回帰なし。
+- [run 2] TaskToggle: `toggle` が既存オブジェクトを直接 mutate し `setTasks(tasks)` に同一配列参照を渡すため React が再描画をバイパスしていた。`setTasks((prev) => prev.map(...))` で新配列＋新オブジェクトの不変更新に修正。再現テスト緑・回帰なし。
 
 ## Open（未解決 / 次周への申し送り）
 
