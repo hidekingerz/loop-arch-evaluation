@@ -6,6 +6,7 @@
 ## Done（達成済み）
 
 - [run 1] calculateTotals.ts を実装（純粋関数）。export: `calculateTotals(items: LineItem[], coupon?: Coupon | null): Totals`、型 `LineItem`/`Coupon`/`Totals`。percent は floor、discount は [0, subtotal] にクランプ。calculateTotals.test.ts 7/7 緑、lint clean。残り useCart / CartView 未作成のため全体 typecheck はまだ失敗。
+- [run 2] useCart.ts を実装（フック）。export: `useCart(initialItems): { items, totals, coupon, setQty(id,qty), removeItem(id), applyCoupon(coupon) }`。初期化時に seed を `.map(spread)` でコピーして不変更新（seed 非破壊）。qty<=0 で除去。totals は useMemo で calculateTotals。useCart 6/6 + calculateTotals 7/7 = 13 緑、lint clean。残り CartView 未作成。
 
 ## Open（未解決 / 次周への申し送り）
 
