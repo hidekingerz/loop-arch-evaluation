@@ -16,3 +16,4 @@
 | F | バグ修正（診断） | `eval-baseline-bugfix` | `run/bugfix-01` |
 | G | maker/checker 分離 | `eval-baseline-makercheck` | `run/makercheck-01`, `run/makercheck-hack-demo` |
 | H | 新機能追加（機能ビルド） | `eval-baseline-feature` | `run/feature-01` |
+| I | 新機能追加（分解ヒントなし） | `eval-baseline-feature-blind` | `run/feature-blind-01` |
