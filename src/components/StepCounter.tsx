@@ -14,7 +14,7 @@ export function StepCounter({ step = 3 }: StepCounterProps) {
 
   const advance = () => {
     for (let i = 0; i < step; i++) {
-      setCount(count + 1);
+      setCount((c) => c + 1);
     }
   };
 

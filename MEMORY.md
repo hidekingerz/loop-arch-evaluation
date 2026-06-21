@@ -5,9 +5,7 @@
 
 ## Done（達成済み）
 
-<!-- 例:
-- [run 1] StepCounter の stale closure を関数型 setState で修正。再現テスト緑・回帰なし。commit abc1234
--->
+- [run 1] StepCounter: `advance` のループが各反復で stale closure の `count` を参照し `setCount(count + 1)` を呼ぶため 1 しか増えなかった。関数型更新 `setCount((c) => c + 1)` に修正。再現テスト緑・回帰なし。
 
 ## Open（未解決 / 次周への申し送り）
 
