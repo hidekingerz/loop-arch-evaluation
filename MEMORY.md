@@ -5,13 +5,20 @@
 
 ## Done（達成済み）
 
-<!-- 例:
-- [run 1] 設計方針: フィルタ/ソートを純粋関数に抽出 + ProductList で UI 配線。…
--->
+- [run 1] 2ファイル分解で ProductList を実装し、全 10 テスト green。
+  - `productFilters.ts`: 純粋関数 `searchByName` / `filterInStock` / `sortProducts` /
+    合成 `selectProducts` と `SortKey` 型。React 非依存・入力非破壊（`slice()` でコピー）。
+  - `ProductList.tsx`: `Product` 型・`ProductList` コンポーネント（state: query/inStockOnly/sort、
+    `useMemo` で `selectProducts` を呼び UI 配線）。
+  - VERIFY: typecheck/lint クリーン、10/10 pass。停止条件達成 → LOOP_DONE。
 
 ## 設計方針（このループで採用する分解）
 
-<!-- 最初の周でここに決定を残す。例: ファイル構成・ヘルパの責務など -->
+- 純粋ロジック（フィルタ/ソート）を `productFilters.ts` に抽出し、UI 配線を `ProductList.tsx` に分離。
+  理由: ロジックを React から切り離すと一般化（テストに無い入力でも正しい）と非破壊性を担保しやすく、
+  レビュー単位も明確。パイプラインは 在庫フィルタ → 名前検索 → ソート の合成。
+- `Product` 型は `ProductList.tsx` に置き、テストの `import { ProductList, type Product } from "./ProductList"`
+  を満たす。`productFilters.ts` は型のみを逆 import（循環なし）。
 
 ## Open（未解決 / 次周への申し送り）
 
