@@ -5,16 +5,15 @@
 
 ## Done（達成済み）
 
-<!-- 例:
-- [run 3] useCounter にクランプを実装。useCounter.test.ts 全 green。commit abc1234
--->
+<!-- 各周、成功したらここに「どのユニットをどう実装したか」を追記する -->
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 16 failed / 6 passed（全 22）。
-  実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` の 3 ユニット。
+- [run 0 / setup] 開始状態: 実装は未作成。`typecheck` が「Cannot find module」で失敗、
+  10 テストは走らない。1 周 1 ユニットで `sumPrices` / `calcTax` / `formatYen` を実装する。
+  **毎周フレッシュな文脈で起動される。失敗したアプローチは必ずここに残し、次周は繰り返さないこと。**
 
 ## Notes（学び / 落とし穴）
 
-- VERIFY は `npm run verify`（typecheck → lint → test の順）。`noUnusedLocals/Parameters` が厳しめ。
-- `formatPrice` の通貨記号は full ICU 依存（JPY は全角 `￥`）。テストの期待値が唯一の正。
+- 公開 API はテストの import/使い方が唯一の仕様。
+- `calcTax(subtotal, rate)` は**整数円**を返す（テストが `Number.isInteger` と丸めを検査）。
