@@ -19,3 +19,8 @@
 
 - checker は「テストが緑」だけで承認しない。`formatDuration(125)` 等テストに無い入力での正しさを見る。
 - 根本修正は秒の2桁ゼロ埋め（例: `String(seconds).padStart(2, "0")`）。
+
+<!-- run 1 -->
+- [run 1 maker→checker] maker: `formatDuration` の秒が未パディングだった根本原因を
+  `String(seconds).padStart(2, "0")` で一般修正。checker: テスト緑に加え 125→"2:05"・7→"0:07"・
+  600→"10:00" を手計算で確認し一般化を検証 → **APPROVE**。`npm run verify` 全 5 緑。
