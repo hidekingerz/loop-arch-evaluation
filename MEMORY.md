@@ -5,9 +5,7 @@
 
 ## Done（達成済み）
 
-<!-- 例:
-- [run 1] calculateTotals.ts を実装。calculateTotals.test.ts 7/7 緑。
--->
+- [run 1] calculateTotals.ts を実装（純粋関数）。export: `calculateTotals(items: LineItem[], coupon?: Coupon | null): Totals`、型 `LineItem`/`Coupon`/`Totals`。percent は floor、discount は [0, subtotal] にクランプ。calculateTotals.test.ts 7/7 緑、lint clean。残り useCart / CartView 未作成のため全体 typecheck はまだ失敗。
 
 ## Open（未解決 / 次周への申し送り）
 
