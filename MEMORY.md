@@ -6,15 +6,19 @@
 ## Done（達成済み）
 
 <!-- 例:
-- [run 3] useCounter にクランプを実装。useCounter.test.ts 全 green。commit abc1234
+- [run 1] StepCounter の stale closure を関数型 setState で修正。再現テスト緑・回帰なし。commit abc1234
 -->
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 0 / setup] 開始状態: `typecheck` と `lint` は green、`test` は 16 failed / 6 passed（全 22）。
-  実装対象は `useCounter.ts` / `formatPrice.ts` / `TodoList.tsx` の 3 ユニット。
+- [run 0 / setup] 開始状態: `typecheck` ✅ / `lint` ✅ / `test` は **6 failed / 7 passed（全 13）**。
+  3 ユニットにバグ（症状は `VISION.md` 参照）:
+  - `StepCounter.tsx` … 「進める」で 1 しか増えない
+  - `TaskToggle.tsx` … チェックしても UI/カウンタが更新されない
+  - `useFilteredList.ts` … クエリ変更が結果に反映されない
+  目標は各バグの**根本原因**を直して全 13 緑にすること（対症療法は禁止）。
 
 ## Notes（学び / 落とし穴）
 
-- VERIFY は `npm run verify`（typecheck → lint → test の順）。`noUnusedLocals/Parameters` が厳しめ。
-- `formatPrice` の通貨記号は full ICU 依存（JPY は全角 `￥`）。テストの期待値が唯一の正。
+- テストは仕様かつ回帰ネット。再現テストを緑にしつつ、既存の緑を壊さないこと。
+- 対症療法（テスト入力に合わせた分岐）は RULES で禁止 —— 根本原因を直す。
