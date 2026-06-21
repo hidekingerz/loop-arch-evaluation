@@ -16,5 +16,5 @@ export function useFilteredList<T>(
       return items;
     }
     return items.filter((item) => toText(item).toLowerCase().includes(q));
-  }, [items]);
+  }, [items, query, toText]);
 }

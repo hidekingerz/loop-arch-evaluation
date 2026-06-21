@@ -7,6 +7,7 @@
 
 - [run 1] StepCounter: `advance` のループが各反復で stale closure の `count` を参照し `setCount(count + 1)` を呼ぶため 1 しか増えなかった。関数型更新 `setCount((c) => c + 1)` に修正。再現テスト緑・回帰なし。
 - [run 2] TaskToggle: `toggle` が既存オブジェクトを直接 mutate し `setTasks(tasks)` に同一配列参照を渡すため React が再描画をバイパスしていた。`setTasks((prev) => prev.map(...))` で新配列＋新オブジェクトの不変更新に修正。再現テスト緑・回帰なし。
+- [run 3] useFilteredList: `useMemo` の依存配列が `[items]` のみで `query` が抜けていたため、クエリ変更時に再計算されず古い結果を返していた。依存配列を `[items, query, toText]` に修正。全 13 テスト緑・回帰なし。`npm run verify` 全項目グリーン。
 
 ## Open（未解決 / 次周への申し送り）
 
