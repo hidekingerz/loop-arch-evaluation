@@ -16,6 +16,11 @@
   `Number.isInteger` も満たす。calcTax.test.ts の 5 テスト pass、lint 0。`sumPrices` と合わせ計 7 テスト pass。
   typecheck/test の残エラーは未実装の `formatYen` のみ（スコープ外・回帰なし）。
 
+- [run 3] `formatYen` 実装完了。`src/lib/checkout/formatYen.ts` に `formatYen(n: number): string` を作成。
+  `"¥" + n.toLocaleString("en-US")` で桁区切りを一般化（en-US ロケールでカンマ区切り）。
+  formatYen.test.ts の 3 テスト pass（0→`¥0`、1234→`¥1,234`、1234567→`¥1,234,567`）。
+  これで全 3 ユニット完了。`npm run verify` 全緑: typecheck 0 / lint 0 / test 10/10 pass。回帰なし。
+
 ## Open（未解決 / 次周への申し送り）
 
 - [run 0 / setup] 開始状態: 実装は未作成。`typecheck` が「Cannot find module」で失敗、
@@ -25,6 +30,8 @@
   次周はこれを実装すれば全 10 テスト green になるはず。`sumPrices` / `calcTax` は完了済みなので触らない。
   formatYen.test.ts を読んで負数・0 の扱いを確認すること。実装は `"¥" + n.toLocaleString("en-US")`
   もしくは桁区切り正規表現で一般化（テスト入力ハードコードは禁止）。
+- [run 3 申し送り] 残ユニットなし。3 ユニット全完了、`npm run verify` 全緑（typecheck 0 / lint 0 / test 10/10）。
+  「完了の定義」を全て満たした。次周は実装すべき未完了ユニットは無い。
 
 ## Notes（学び / 落とし穴）
 
