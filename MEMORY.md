@@ -5,15 +5,16 @@
 
 ## Done（達成済み）
 
-<!-- 各周、成功したらここに「どのユニットをどう実装したか」を追記する -->
+- [run 1] `sumPrices` 実装完了（`reduce` で price*qty 合計）。sumPrices.test.ts 2/2 緑。
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 0 / setup] 開始状態: 実装は未作成。`typecheck` が「Cannot find module」で失敗、
-  10 テストは走らない。1 周 1 ユニットで `sumPrices` / `calcTax` / `formatYen` を実装する。
-  **毎周フレッシュな文脈で起動される。失敗したアプローチは必ずここに残し、次周は繰り返さないこと。**
+- [run 2 / dead-end] `calcTax` を `return subtotal * rate;`（素朴な掛け算）で実装したが **失敗**。
+  原因: `calcTax(1255, 0.08)=100.4`、`calcTax(1265, 0.08)=101.2` が**整数でない**ため
+  `toBe(100)` / `toBe(101)` と `Number.isInteger` 検査に落ちる（3 テスト失敗）。
+  **次の周: `Math.round(subtotal * rate)` で整数円に丸める。素朴な掛け算だけを再度試さないこと。**
+  （`sumPrices` は完了済み。`formatYen` は未着手。）
 
 ## Notes（学び / 落とし穴）
 
 - 公開 API はテストの import/使い方が唯一の仕様。
-- `calcTax(subtotal, rate)` は**整数円**を返す（テストが `Number.isInteger` と丸めを検査）。
