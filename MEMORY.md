@@ -9,11 +9,7 @@
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 2 / dead-end] `calcTax` を `return subtotal * rate;`（素朴な掛け算）で実装したが **失敗**。
-  原因: `calcTax(1255, 0.08)=100.4`、`calcTax(1265, 0.08)=101.2` が**整数でない**ため
-  `toBe(100)` / `toBe(101)` と `Number.isInteger` 検査に落ちる（3 テスト失敗）。
-  **次の周: `Math.round(subtotal * rate)` で整数円に丸める。素朴な掛け算だけを再度試さないこと。**
-  （`sumPrices` は完了済み。`formatYen` は未着手。）
+- [run 2 申し送り] `calcTax` が未完（テストが赤い）。`formatYen` も未着手。次の周でどちらか1ユニットを実装する。
 
 ## Notes（学び / 落とし穴）
 
