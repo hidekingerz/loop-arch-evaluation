@@ -2,7 +2,8 @@
 
 **Single-agent closed loop** の機構検証リポジトリ。最終的にフロントエンドのコードへ
 single-agent loop を適用できることを確認するため、複数の検証テーマ（グリーン化 / 安全停止 /
-依存解決 / 人間判断 / リファクタ / バグ修正 / maker-checker 分離 / 新機能追加 / 分解ヒントなし機能追加）を回した。
+依存解決 / 人間判断 / リファクタ / バグ修正 / maker-checker 分離 / 新機能追加 / 分解ヒントなし機能追加 /
+長期収束・MEMORY 背骨）を回した。
 
 雛形の理論・元ネタ: <https://hidekingerz.github.io/catch-all-favorite/content/research/single-agent-loop/>
 
