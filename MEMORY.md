@@ -6,14 +6,16 @@
 ## Done（達成済み）
 
 - [run 1] `sumPrices` 実装完了（`reduce` で price*qty 合計）。sumPrices.test.ts 2/2 緑。
+- [run 3] `calcTax` 実装完了（`Math.round(subtotal * rate)` で整数円に丸め）。calcTax.test.ts 5/5 緑。
+  run 2 の dead-end（素朴な掛け算 → 非整数で 3 テスト失敗）を申し送り通り回避。
+  回帰なし（sumPrices 2/2 も緑、計 7 pass）。
 
 ## Open（未解決 / 次周への申し送り）
 
-- [run 2 / dead-end] `calcTax` を `return subtotal * rate;`（素朴な掛け算）で実装したが **失敗**。
-  原因: `calcTax(1255, 0.08)=100.4`、`calcTax(1265, 0.08)=101.2` が**整数でない**ため
-  `toBe(100)` / `toBe(101)` と `Number.isInteger` 検査に落ちる（3 テスト失敗）。
-  **次の周: `Math.round(subtotal * rate)` で整数円に丸める。素朴な掛け算だけを再度試さないこと。**
-  （`sumPrices` は完了済み。`formatYen` は未着手。）
+- [未着手] `formatYen` のみ残存。`src/lib/checkout/formatYen.ts` が未作成のため
+  formatYen.test.ts が import 解決に失敗（`npm run verify` / typecheck もここで赤）。
+  **次の周: `formatYen(n)` を実装する。** 仕様: 半角 `¥` ＋桁区切りで `"¥1,234"`（例: `formatYen(1234)` → `"¥1,234"`、`formatYen(0)` → `"¥0"`）。
+  実装案: `` `¥${n.toLocaleString("en-US")}` `` もしくは手動の3桁区切り。formatYen.test.ts を読んで負数/0 の扱いを確認すること。
 
 ## Notes（学び / 落とし穴）
 
