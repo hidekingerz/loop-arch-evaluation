@@ -3,6 +3,7 @@
 | ドキュメント | 内容 |
 |---|---|
 | [`verification-report.md`](./verification-report.md) | Single-agent closed loop の機構検証レポート（全テーマ統合）。検証一覧・各検証詳細・ハーネス改善・ブランチマップ・再現方法 |
+| [`apply-to-real-repo.md`](./apply-to-real-repo.md) | 実リポジトリへの適用ガイド。ポータブル雛形のコピー＋プレースホルダ記入＋新セッション用のコピペ・キックオフ指示 |
 
 ## 検証テーマ早見
 
